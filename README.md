@@ -1,4 +1,4 @@
-# Loading State
+# React Loading State
 
 ### Example
 
