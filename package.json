@@ -1,6 +1,6 @@
 {
   "name": "react-loading-state",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "loading state hook for reactjs",
   "main": "index.ts",
   "scripts": {
@@ -16,10 +16,9 @@
   ],
   "author": "ALLAPE",
   "license": "ISC",
-  "dependencies": {
-    "react": "^16.10.2"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "react": "^16.10.2",
     "@types/react": "^16.10.2",
     "typescript": "^4.3.4"
   }
