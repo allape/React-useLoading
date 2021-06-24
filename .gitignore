@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-example/build
+src/index.js
+src/index.d.ts
 
 .idea
