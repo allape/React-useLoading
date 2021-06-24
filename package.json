@@ -4,6 +4,9 @@
   "description": "Loading state for react",
   "main": "index.ts",
   "scripts": {},
+  "repository": {
+    "url": "https://github.com/ALLAPE/React-LoadingState"
+  },
   "keywords": [
     "loading",
     "react"
