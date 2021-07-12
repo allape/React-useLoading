@@ -1,6 +1,6 @@
 {
   "name": "react-loading-state",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "loading state hook for reactjs",
   "main": "index.ts",
   "scripts": {

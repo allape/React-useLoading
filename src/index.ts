@@ -81,15 +81,15 @@ export default function useLoading(
   return [ loading, load, loaded, isLoading ];
 }
 
-export type PlusFunction = () => void;
+export type PlusFunction = (newValue?: number) => void;
 /**
  * 计数器, 用于触发key更改的
  * @param initValue 初始值
  */
 export function useCounter(initValue: number = 0): [ number, PlusFunction ] {
   const [count, setCount] = useState(initValue);
-  const plus = useCallback(() => {
-    setCount(c => c === Number.MAX_SAFE_INTEGER ? 1 : (c + 1));
+  const plus = useCallback((newValue?: number) => {
+    setCount(c => newValue === undefined ? (c === Number.MAX_SAFE_INTEGER ? 1 : (c + 1)) : newValue);
   }, [setCount]);
   return [ count, plus ];
 }
