@@ -90,7 +90,7 @@ export function useCounter(initValue: number = 0): [ number, PlusFunction ] {
   const [count, setCount] = useState(initValue);
   const plus = useCallback((newValue?: number) => {
     setCount(c => newValue === undefined ? (c === Number.MAX_SAFE_INTEGER ? 1 : (c + 1)) : newValue);
-  }, [setCount]);
+  }, []);
   return [ count, plus ];
 }
 
