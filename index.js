@@ -66,9 +66,9 @@ export default function useLoading(delay) {
 export function useCounter(initValue) {
     if (initValue === void 0) { initValue = 0; }
     var _a = useState(initValue), count = _a[0], setCount = _a[1];
-    var plus = useCallback(function () {
-        setCount(function (c) { return c === Number.MAX_SAFE_INTEGER ? 1 : (c + 1); });
-    }, [setCount]);
+    var plus = useCallback(function (newValue) {
+        setCount(function (c) { return newValue === undefined ? (c === Number.MAX_SAFE_INTEGER ? 1 : (c + 1)) : newValue; });
+    }, []);
     return [count, plus];
 }
 export var LoadingContext = React.createContext({

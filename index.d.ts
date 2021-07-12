@@ -8,7 +8,7 @@ export declare type UseLoadingReturn = [boolean, LoadFunction, LoadedFunction, I
  * @param delay 延迟触发更改状态的时间(ms), 避免闪烁
  */
 export default function useLoading(delay?: number): UseLoadingReturn;
-export declare type PlusFunction = () => void;
+export declare type PlusFunction = (newValue?: number) => void;
 /**
  * 计数器, 用于触发key更改的
  * @param initValue 初始值
