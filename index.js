@@ -14,7 +14,7 @@ export default function useLoading(delay) {
     var queue = useMemo(function () { return []; }, []);
     var load = useCallback(function (key) {
         key = key || Date.now() + "_" + Math.random() + "_" + Math.random();
-        if (globalLoad && globalLoad !== load) {
+        if (globalLoad && globalLoad !== NotImplementedError) {
             globalLoad(key);
         }
         queue.push(key);
@@ -22,7 +22,7 @@ export default function useLoading(delay) {
         return key;
     }, [queue, plus, globalLoad]);
     var loaded = useCallback(function (key) {
-        if (globalLoaded && globalLoaded !== loaded) {
+        if (globalLoaded && globalLoaded !== NotImplementedError) {
             globalLoaded(key);
         }
         var index = queue.indexOf(key);
@@ -50,14 +50,14 @@ export default function useLoading(delay) {
     // useEffect(() => {
     //   if (withAutoClear) {
     //     const intervalId = setInterval(() => {
-    //       setLoading(queue.length > 0);
-    //     }, 1000);
+    //       setLoading(queue.length > 0)
+    //     }, 1000)
     //     return () => {
-    //       clearInterval(intervalId);
-    //     };
+    //       clearInterval(intervalId)
+    //     }
     //   }
-    // }, [withAutoClear, setLoading, queue]);
-    return [loading, load, loaded, isLoading];
+    // }, [withAutoClear, setLoading, queue])
+    return useMemo(function () { return ({ loading: loading, load: load, loaded: loaded, isLoading: isLoading }); }, [loading, load, loaded, isLoading]);
 }
 /**
  * 计数器, 用于触发key更改的
@@ -71,8 +71,12 @@ export function useCounter(initValue) {
     }, []);
     return [count, plus];
 }
+var NotImplementedError = function () {
+    throw new Error('Not implemented yet!');
+};
 export var LoadingContext = React.createContext({
     loading: false,
-    load: undefined,
-    loaded: undefined,
+    load: NotImplementedError,
+    loaded: NotImplementedError,
+    isLoading: NotImplementedError,
 });

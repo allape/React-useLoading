@@ -1,6 +1,6 @@
 {
   "name": "react-loading-state",
-  "version": "0.9.6",
+  "version": "1.0.0",
   "description": "loading state hook for reactjs",
   "main": "index.ts",
   "scripts": {
@@ -8,18 +8,17 @@
     "postbuild": "node postbuild.js"
   },
   "repository": {
-    "url": "https://github.com/ALLAPE/React-LoadingState"
+    "url": "https://github.com/allape/React-LoadingState"
   },
   "keywords": [
     "loading",
     "react"
   ],
-  "author": "ALLAPE",
+  "author": "allape",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
-    "react": "^16.10.2",
-    "@types/react": "^16.10.2",
-    "typescript": "^4.3.4"
+    "@types/react": "^16.14.20",
+    "react": "^16.14.0",
+    "typescript": "^4.4.4"
   }
 }
