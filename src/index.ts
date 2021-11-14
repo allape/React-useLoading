@@ -25,7 +25,7 @@ export default function useLoading(delay: number = 100): UseLoadingReturn {
 
   const setLoadingProxy = useCallback((loading: boolean) => {
     setLoading(loading)
-  }, [setLoading])
+  }, [])
 
   const queue = useMemo<string[]>(() => [], [])
 
