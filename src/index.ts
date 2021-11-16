@@ -32,8 +32,12 @@ export default function useLoading(delay: number = 100): UseLoadingReturn {
   const load = useCallback((key?: string): string => {
     key = key || `${Date.now()}_${Math.random()}_${Math.random()}`
 
-    if (globalLoad && globalLoad !== NotImplementedError) {
-      globalLoad(key)
+    if (globalLoad && globalLoad !== load && globalLoad !== NotImplementedError) {
+      try {
+        globalLoad(key)
+      } catch (e) {
+        console.error('failed to call "load" function in context')
+      }
     }
 
     queue.push(key)
@@ -42,8 +46,12 @@ export default function useLoading(delay: number = 100): UseLoadingReturn {
   }, [queue, plus, globalLoad])
 
   const loaded = useCallback((key: string): boolean => {
-    if (globalLoaded && globalLoaded !== NotImplementedError) {
-      globalLoaded(key)
+    if (globalLoaded && globalLoaded !== loaded && globalLoaded !== NotImplementedError) {
+      try {
+        globalLoaded(key)
+      } catch (e) {
+        console.error('failed to call "loaded" function in context:', e)
+      }
     }
 
     const index = queue.indexOf(key)
@@ -56,17 +64,15 @@ export default function useLoading(delay: number = 100): UseLoadingReturn {
   }, [queue, plus, globalLoaded])
 
   // 最精确的判断当前是否在loading, 用于那些不能依靠loading state更改来监听操作的操作
-  const isLoading = useCallback(() => {
-    return queue.length > 0
-  }, [queue])
+  const isLoading = useCallback(() => queue.length > 0, [queue])
 
   useEffect(() => {
     const loading = queue.length > 0
-    if (!loading) {
+    if (loading) {
+      setLoadingProxy(loading)
+    } else {
       const id = setTimeout(() => setLoadingProxy(queue.length > 0), delay)
       return () => clearTimeout(id)
-    } else {
-      setLoadingProxy(loading)
     }
   }, [count, queue, delay, setLoadingProxy])
 

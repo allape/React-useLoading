@@ -10,20 +10,30 @@ export default function useLoading(delay) {
     var _c = useContext(LoadingContext), globalLoad = _c.load, globalLoaded = _c.loaded;
     var setLoadingProxy = useCallback(function (loading) {
         setLoading(loading);
-    }, [setLoading]);
+    }, []);
     var queue = useMemo(function () { return []; }, []);
     var load = useCallback(function (key) {
         key = key || Date.now() + "_" + Math.random() + "_" + Math.random();
-        if (globalLoad && globalLoad !== NotImplementedError) {
-            globalLoad(key);
+        if (globalLoad && globalLoad !== load && globalLoad !== NotImplementedError) {
+            try {
+                globalLoad(key);
+            }
+            catch (e) {
+                console.error('failed to call "load" function in context');
+            }
         }
         queue.push(key);
         plus();
         return key;
     }, [queue, plus, globalLoad]);
     var loaded = useCallback(function (key) {
-        if (globalLoaded && globalLoaded !== NotImplementedError) {
-            globalLoaded(key);
+        if (globalLoaded && globalLoaded !== loaded && globalLoaded !== NotImplementedError) {
+            try {
+                globalLoaded(key);
+            }
+            catch (e) {
+                console.error('failed to call "loaded" function in context:', e);
+            }
         }
         var index = queue.indexOf(key);
         if (index !== -1) {
@@ -34,17 +44,15 @@ export default function useLoading(delay) {
         return false;
     }, [queue, plus, globalLoaded]);
     // 最精确的判断当前是否在loading, 用于那些不能依靠loading state更改来监听操作的操作
-    var isLoading = useCallback(function () {
-        return queue.length > 0;
-    }, [queue]);
+    var isLoading = useCallback(function () { return queue.length > 0; }, [queue]);
     useEffect(function () {
         var loading = queue.length > 0;
-        if (!loading) {
-            var id_1 = setTimeout(function () { return setLoadingProxy(queue.length > 0); }, delay);
-            return function () { return clearTimeout(id_1); };
+        if (loading) {
+            setLoadingProxy(loading);
         }
         else {
-            setLoadingProxy(loading);
+            var id_1 = setTimeout(function () { return setLoadingProxy(queue.length > 0); }, delay);
+            return function () { return clearTimeout(id_1); };
         }
     }, [count, queue, delay, setLoadingProxy]);
     // useEffect(() => {
