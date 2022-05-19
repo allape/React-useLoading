@@ -1,5 +1,6 @@
 env:
   browser: true
+  node: true
   es2021: true
 extends:
   - eslint:recommended
@@ -7,20 +8,17 @@ extends:
   - plugin:@typescript-eslint/recommended
 parser: '@typescript-eslint/parser'
 parserOptions:
-  ecmaFeatures:
-    jsx: true
-  ecmaVersion: 2015
+  ecmaVersion: latest
   sourceType: module
 plugins:
-  - react
   - '@typescript-eslint'
 rules:
-  quotes:
-    - warn
-    - single
-  comma-dangle:
+  indent:
     - error
-    - always-multiline
-  no-extra-semi: warn
-  no-inferrable-types: off
-  '@typescript-eslint/no-non-null-assertion': off
+    - 2
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - never

@@ -1,33 +1,34 @@
 {
-  "name": "react-loading-state",
-  "version": "1.0.1",
+  "name": "react-use-loading",
+  "version": "1.0.0",
   "description": "loading state hook for reactjs",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "npx tsc",
-    "postbuild": "node postbuild.js"
+    "build": "npx tsc"
   },
   "repository": {
-    "url": "https://github.com/allape/React-LoadingState"
+    "url": "https://github.com/allape/React-useLoading"
   },
   "keywords": [
     "loading",
+    "useLoading",
     "react"
   ],
   "author": "allape",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^27.0.3",
-    "@types/react": "^16.14.20",
-    "@types/react-dom": "^17.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "eslint": "^8.3.0",
-    "eslint-plugin-react": "^7.27.1",
-    "jest": "^27.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4"
+    "@types/jest": "^27.5.1",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-react": "^7.30.0",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "ts-jest": "^28.0.2",
+    "typescript": "^4.6.4"
   }
 }
