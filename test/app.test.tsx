@@ -32,6 +32,7 @@ function TestView (props: TestViewProps) {
 
 let container: HTMLDivElement
 let root: Root
+
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)

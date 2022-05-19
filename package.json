@@ -1,5 +1,5 @@
 {
-  "name": "react-use-loading",
+  "name": "react-use-loading-queue",
   "version": "1.0.0",
   "description": "loading state hook for reactjs",
   "main": "src/index.ts",
@@ -15,7 +15,7 @@
     "react"
   ],
   "author": "allape",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^27.5.1",
     "@types/react": "^18.0.9",
