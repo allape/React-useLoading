@@ -1,6 +1,6 @@
-import {Dispatch, RefObject, SetStateAction, useCallback, useRef, useState} from 'react'
+import {Dispatch, MutableRefObject, SetStateAction, useCallback, useRef, useState} from 'react'
 
-export default function useProxy<T = unknown>(initialValue: T): [T, RefObject<T>, Dispatch<SetStateAction<T>>] {
+export default function useProxy<T = unknown>(initialValue: T): [T, MutableRefObject<T>, Dispatch<SetStateAction<T>>] {
   const [state, setState] = useState<T>(initialValue)
   const ref = useRef<T>(initialValue)
   const setValue = useCallback<Dispatch<SetStateAction<T>>>((value) => {

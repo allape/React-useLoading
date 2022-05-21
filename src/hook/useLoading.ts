@@ -91,7 +91,7 @@ export default function useLoading({ delay = 100, onChange }: UseLoadingOptions 
       return true
     }
     return false
-  }, [onChange, tick, globalFinish])
+  }, [onChange, tick, loadingProxy, globalFinish])
 
   const execute = useCallback<ExecFunc>(async <T>(runner: () => Promise<T>): Promise<T> => {
     const lk = push()
