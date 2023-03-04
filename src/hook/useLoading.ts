@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef} from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import NotImplementedError from '../error/NotImplementedError'
 import useCounter from './useCounter'
 import useProxy from './useProxy'
@@ -8,6 +8,7 @@ export type OnChangeFunc = (loading: boolean) => void
 export type PushFunc = (key?: string) => string
 export type FinishFunc = (key: string) => boolean
 export type ExecFunc = <T> (runner: () => Promise<T>) => Promise<T>
+export type PromiseFunc = <T> (promise: Promise<T>) => Promise<T>
 export type IsLoadingFunc = () => boolean
 
 export interface UseLoadingOptions {
@@ -27,6 +28,7 @@ export interface UseLoadingReturn {
   push: PushFunc
   finish: FinishFunc
   execute: ExecFunc
+  promise: PromiseFunc
   isLoading: IsLoadingFunc
 }
 
@@ -35,6 +37,7 @@ export const LoadingContext = React.createContext<UseLoadingReturn>({
   execute: NotImplementedError,
   push: NotImplementedError,
   finish: NotImplementedError,
+  promise: NotImplementedError,
   isLoading: NotImplementedError,
 })
 
@@ -102,6 +105,10 @@ export default function useLoading({ delay = 100, onChange }: UseLoadingOptions 
     }
   }, [push, finish])
 
+  const promise = useCallback<PromiseFunc>(<T>(promise: Promise<T>): Promise<T> => {
+    return execute(() => promise)
+  }, [])
+
   const isLoading = useCallback<IsLoadingFunc>((): boolean => queueRef.current.length > 0, [])
 
   useEffect(() => {
@@ -119,6 +126,7 @@ export default function useLoading({ delay = 100, onChange }: UseLoadingOptions 
     push,
     finish,
     execute,
+    promise,
     isLoading,
   }
 }

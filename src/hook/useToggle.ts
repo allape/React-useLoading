@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import { useCallback, useState } from 'react'
 
 export type MakeItTrue = () => void
 export type MakeItFalse = () => void

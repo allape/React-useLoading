@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import * as React from 'react'
-import {useCallback} from 'react'
-import {act} from 'react-dom/test-utils'
-import {useLoading} from '../src'
-import {createRoot, Root} from 'react-dom/client'
+import { useCallback } from 'react'
+import { act } from '@testing-library/react'
+import { useLoading } from '../src'
+import { createRoot, Root } from 'react-dom/client'
 
 interface TestViewProps {
   onFinally?: (now: number) => void
 }
 
 function TestView (props: TestViewProps) {
-  const {onFinally} = props
-  const {loading, push, finish, execute, isLoading} = useLoading()
+  const { onFinally } = props
+  const { loading, push, finish, execute, isLoading } = useLoading()
   const fetch = useCallback(async () => {
-    // if (isLoading()) return
+    if (isLoading()) return
     const lk = push()
     try {
       await new Promise<void>(resolve => setTimeout(() => resolve(), 1000))
@@ -59,8 +59,8 @@ it('loading test', async () => {
     })
     expect(onFinally).toHaveBeenCalledTimes(0)
     expect(button.textContent).toBe('loading')
-    await new Promise<void>(resolve => setTimeout(() => resolve(), 2200))
-    expect(onFinally).toHaveBeenCalledTimes(10)
+    await new Promise<void>(resolve => setTimeout(resolve, 2200))
+    expect(onFinally).toHaveBeenCalledTimes(1)
     expect(button.textContent).toBe('fetch')
   }
 })
