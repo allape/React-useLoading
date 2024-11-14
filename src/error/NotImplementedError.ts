@@ -1,4 +1,3 @@
-
 export default function NotImplementedError(): never {
-  throw new Error('NotImplementedError')
+  throw new Error('NotImplementedError');
 }

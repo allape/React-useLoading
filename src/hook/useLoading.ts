@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import NotImplementedError from '../error/NotImplementedError'
-import useCounter from './useCounter'
-import useProxy from './useProxy'
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import NotImplementedError from '../error/NotImplementedError';
+import useCounter from './useCounter';
+import useProxy from './useProxy';
 
 export type OnChangeFunc = (loading: boolean) => void
 
@@ -16,20 +16,20 @@ export interface UseLoadingOptions {
    * delay for setLoading(false), prevent flashing; in unit `ms`
    * @default 100
    */
-  delay?: number
+  delay?: number;
   /**
    * emit immediately on loading state changed
    */
-  onChange?: OnChangeFunc
+  onChange?: OnChangeFunc;
 }
 
 export interface UseLoadingReturn {
-  loading: boolean
-  push: PushFunc
-  finish: FinishFunc
-  execute: ExecFunc
-  promise: PromiseFunc
-  isLoading: IsLoadingFunc
+  loading: boolean;
+  push: PushFunc;
+  finish: FinishFunc;
+  execute: ExecFunc;
+  promise: PromiseFunc;
+  isLoading: IsLoadingFunc;
 }
 
 export const LoadingContext = React.createContext<UseLoadingReturn>({
@@ -39,46 +39,46 @@ export const LoadingContext = React.createContext<UseLoadingReturn>({
   finish: NotImplementedError,
   promise: NotImplementedError,
   isLoading: NotImplementedError,
-})
+});
 
 export default function useLoading({ delay = 100, onChange }: UseLoadingOptions = {}): UseLoadingReturn {
-  const [loading, loadingProxy, setLoading] = useProxy(false)
-  const [count, tick] = useCounter()
-  const { push: globalPush, finish: globalFinish } = useContext(LoadingContext)
-  const queueRef = useRef<string[]>([])
+  const [loading, loadingProxy, setLoading] = useProxy(false);
+  const [count, tick] = useCounter();
+  const { push: globalPush, finish: globalFinish } = useContext(LoadingContext);
+  const queueRef = useRef<string[]>([]);
 
   const push = useCallback<PushFunc>((key): string => {
-    key = key || `${Date.now()}_${Math.random()}_${Math.random()}`
+    key = key || `${Date.now()}_${Math.random()}_${Math.random()}`;
 
     if (globalPush && globalPush !== push && globalPush !== NotImplementedError) {
       try {
-        globalPush(key)
+        globalPush(key);
       } catch (e) {
-        console.error('failed to call "push" function in context')
+        console.error('failed to call "push" function in context');
       }
     }
 
-    queueRef.current.push(key)
+    queueRef.current.push(key);
 
-    tick()
+    tick();
 
-    return key
-  }, [tick, globalPush])
+    return key;
+  }, [tick, globalPush]);
 
   const finish = useCallback<FinishFunc>((key): boolean => {
     if (globalFinish && globalFinish !== finish && globalFinish !== NotImplementedError) {
       try {
-        globalFinish(key)
+        globalFinish(key);
       } catch (e) {
-        console.error('failed to call "finish" function in context:', e)
+        console.error('failed to call "finish" function in context:', e);
       }
     }
 
-    const queue = queueRef.current
-    const index = queue.indexOf(key)
+    const queue = queueRef.current;
+    const index = queue.indexOf(key);
     if (index !== -1) {
-      queue.splice(index, 1)
-      tick()
+      queue.splice(index, 1);
+      tick();
 
       if (
         onChange &&
@@ -88,38 +88,38 @@ export default function useLoading({ delay = 100, onChange }: UseLoadingOptions 
           (!loadingProxy.current && queue.length > 0)
         )
       ) {
-        onChange(queue.length > 0)
+        onChange(queue.length > 0);
       }
 
-      return true
+      return true;
     }
-    return false
-  }, [onChange, tick, loadingProxy, globalFinish])
+    return false;
+  }, [onChange, tick, loadingProxy, globalFinish]);
 
   const execute = useCallback<ExecFunc>(async <T>(runner: () => Promise<T>): Promise<T> => {
-    const lk = push()
+    const lk = push();
     try {
-      return await runner()
+      return await runner();
     } finally {
-      finish(lk)
+      finish(lk);
     }
-  }, [push, finish])
+  }, [push, finish]);
 
   const promise = useCallback<PromiseFunc>(<T>(promise: Promise<T>): Promise<T> => {
-    return execute(() => promise)
-  }, [])
+    return execute(() => promise);
+  }, []);
 
-  const isLoading = useCallback<IsLoadingFunc>((): boolean => queueRef.current.length > 0, [])
+  const isLoading = useCallback<IsLoadingFunc>((): boolean => queueRef.current.length > 0, []);
 
   useEffect(() => {
-    const loading = queueRef.current.length > 0
+    const loading = queueRef.current.length > 0;
     if (loading) {
-      setLoading(loading)
+      setLoading(loading);
     } else {
-      const id = setTimeout(() => setLoading(queueRef.current.length > 0), delay)
-      return () => clearTimeout(id)
+      const id = setTimeout(() => setLoading(queueRef.current.length > 0), delay);
+      return () => clearTimeout(id);
     }
-  }, [count, delay, setLoading])
+  }, [count, delay, setLoading]);
 
   return {
     loading,
@@ -128,5 +128,5 @@ export default function useLoading({ delay = 100, onChange }: UseLoadingOptions 
     execute,
     promise,
     isLoading,
-  }
+  };
 }
