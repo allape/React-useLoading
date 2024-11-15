@@ -1,6 +1,6 @@
 {
   "name": "@allape/use-loading",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "loading state hook for reactjs",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
